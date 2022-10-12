@@ -1,0 +1,85 @@
+{%  extends 'base.html'%}
+
+{%block title%}Sign in{%endblock%}
+{%block content%}
+<div class="container">
+  {%if error != None %}
+  {%if error == 'PWDerror'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+    <use xlink:href="#exclamation-triangle-fill"/>
+  </svg>
+    <strong>password error,</strong> Password not strong enough!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  
+  {%endif%}
+  {%if error == 'U1error'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>Username error,</strong> username should not contain any special characters!
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endif%}
+  {%if error == 'Uerror'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>Username error,</strong> username have already been used!
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endif%}
+  {%if error == 'U2error'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>Username error,</strong> username does not contain enough characters!
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endif%}
+  {%if error == 'U3error'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>Username error,</strong> username should not start with numbers!
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endif%}
+  {%if error == 'Perror' and error == 'P1error'%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>Phone number error,</strong>  Enter a valid phone number without prefix!
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {%endif%}
+  {%endif%}
+  <form method="post">
+    {{form.csrf_token}}
+    {{form.username.label(class='form-label')}}
+    <br/>
+    {{form.username(placeholder='enter your username', class='form-control')}}
+    <br/>
+    {{form.email.label(class='form-label')}}
+    <br/>
+    {{form.email(placeholder='enter your email', class='form-control')}}
+    <br/>
+    {{form.phone.label(class='form-label')}}
+    <br/>
+    {{form.phone(placeholder='enter your phone number', class='form-control')}}
+    <br/>
+    {{form.password.label(class='form-label')}}
+    <br/>
+    {{form.password(placeholder='enter your password', class='form-control')}}
+    <br/>
+    {{form.submit(class='btn btn-outline-success')}}
+  </form>
+</div>
+
+{%endblock%}

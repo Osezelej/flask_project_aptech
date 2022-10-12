@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<div class="container">
+
+    <form method="post">
+        {{form.csrf_token}}
+        {{form.username.label(class='form-label')}}
+        <br/>
+        {{form.username(class='form-control', placeholder='johndoe or johndoe@example.com or 0804588712445')}}
+        <br/>
+        {{form.password.label(class='form-label')}}
+        <br/>
+        {{form.password(class='form-control')}}
+        <br/>
+        {{form.submit(class='btn btn-outline-success')}}
+    </form>
+</div>
+
+{%endblock%}
