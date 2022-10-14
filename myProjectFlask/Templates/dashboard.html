@@ -1,24 +1,42 @@
 {% extends 'base.html'%}
 
 {%block title%}
-dashbord
+dashboard
+{%endblock%}
+{%block login %}
+<li class="nav-item">
+  <a class="nav-link " aria-current="page" href="{{url_for('login')}}">Log out</a>
+</li>
 {%endblock%}
 {% block content%}
-<div class="inputForm">
-
-</div>
-<br/>
-<br/>
 <div class="container" id='todos'>
+  {%for message in get_flashed_messages()%}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+      <use xlink:href="#exclamation-triangle-fill"/>
+    </svg>
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  
+  {%endfor%}
+  <div class="input" style="display:flex;align-items: center; justify-content: center;">
+    <form  method="post">
+      {{form.csrf_token}}
+      <br/>
+      {{form.title(style = 'width:300px;, height:50px;', placeholder = 'Todo Title', class = 'form-control' )}}<br/>
+      {{form.body(style = 'width:300px;', placeholder = 'Todo Message', class = 'form-control')}}<br/>
+      {{form.submit(class = 'btn btn-outline-success')}}
+    </form>
+  </div>
+   {%for todo in data%}
+   <br/>
+   <div class="card">
+    <h6>{{todo['title']}}</h6>
     <p>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Title
-        </a>
-      </p>
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-          Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-        </div>
-      </div>
-</div>
+      {{todo['body']}}
+    </p>
+   </div>
+   {%endfor%}
+  </div>
 {%endblock%}

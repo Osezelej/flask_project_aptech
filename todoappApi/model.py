@@ -43,7 +43,7 @@ def request_fromdb(column, column_value, password):
             try:
                 tablename = cur.fetchall()[0][1] # assign the username| table name to the variable tablename
             except IndexError:
-                print('connection error ') # print this error message if there is an error
+                return 'Uerror' # print this error message if there is an error
             conn.commit() # this is what execute the functions in the database
         return tablename
 
@@ -58,7 +58,7 @@ def get_data(table:str) -> list:
         conn.commit()
     return data
 
-def arange(table:list) -> None:
+def arange(table:list) -> list:
     '''this accept the tables and arranges it'''
     data = []
     table_column =['id', 'title', 'body', 'schedule']
@@ -68,6 +68,8 @@ def arange(table:list) -> None:
             d[table_column[w]] = row[w]
         data.append(d)
     return data
+
+    
 def sign_in(user:User) -> str:
     '''accepts the validated User data'''
 
@@ -114,19 +116,18 @@ def sign_in(user:User) -> str:
 def login_user(password:str, username:str='', phone:str='', email:str='')->None:
     if username: 
         column = 'username'
+        print(username)
         table_name = request_fromdb(column=column, column_value=username,password=password)
-        if table_name:
-           return arange(table_name)
-        else:
-            print('please there is an error')
-
+        if table_name != 'Uerror':
+           return 'successfull'
+        else: 
+            return table_name
     elif phone:
         column = 'phone'
         table_name = request_fromdb(column, phone,password)
         if table_name:
             return arange(table_name)
-        else:
-            print('there is an error')
+      
     elif email:
         column = 'email'
         table_name = request_fromdb(column, email,password)
