@@ -1,49 +1,39 @@
-ice = 0
-room = 27
-body = 32
-boiling = 100
+n = 5
+answer = []
+if n > 0:
+    for i in range(n):
+        inarr = []
+        answer.append(inarr)
 
-# and is not or 
-# <, >, <=, >=, ==, !=
+    print(answer)
 
-# # and operator
-#         0             1          0
+    num = 0
+    for i in range(n):
+        if i == 0:
+            for w in range(1,n +1):
+                num = w
+                answer[i].append(w)
+        else:
+            num += 1 
+            answer[i].append(num)
 
-# if statement 
-# match case statement
-name = 'samuel'
-if name == 'joseph':
-    print(name)
-# if elif else chain
+    last_item = answer[-1]
+    index = -1
+    for i in range(n-1):
+        num += 1
+        answer[-1].insert(index-1, num)
+        index -= 1
 
-name = 'samuel'
-if name == 'joseph':
-    print(name)
-elif name == 'samuuel':
-    print('you are not allowed')
+
+    data = answer[-n + 1:-1]
+    data.reverse()
+    for i in range(len(data)):
+        for c in range(n-1):
+            num += 1
+            data[i].insert(c, num)
+            
+    data.reverse()
+    answer[-n + 1:-1] = data
+    print(answer)
 else:
-    print('please get out')
-
-if name == 'joseph':
-    print(name)
-if name == 'samuel':
-    print('you are not allowed')
-# if name != 'joseph' and name != 'samuel':
-#     print('get out')
-
-match (name == 'joseph'):
-    case True:
-        print(name)
-    case False:
-        print('get out')
- 
-    
-# for n in name:
-#     print(n)
-
-# for i in range(2, 10, 3):
-#     print(i)
-
-names = [['joseph', 'isaac', 'samuel', 'vincent', 'joshua'], ['sarah', 'claudia', 'angel', 'chioma']]
-
-
+    print(None)
