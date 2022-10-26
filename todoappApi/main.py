@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from model import User, UserLogin, sign_in, login_user, arange
+from model import User, UserLogin, sign_in, login_user, arange, delete_todo, add_todo
 
 app = FastAPI(debug=True)
 
@@ -22,3 +22,11 @@ async def log_in (body:UserLogin):
 @app.get('/user/v1/{username}')
 async def data(username:str):
     return arange(username)
+
+@app.delete('/user/v1/{username}/{id}')
+async def delete(username:str, id:str):
+    return delete_todo(username, id)
+
+@app.post('/add_todo/user/v1/{username}')
+async def add_todos(username:str, title:str, body:str):
+    return add_todo(username, title, body)

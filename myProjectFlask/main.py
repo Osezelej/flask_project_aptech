@@ -1,4 +1,5 @@
-from email.quoprimime import body_check
+from ast import Delete
+from turtle import title
 import requests
 from flask import Flask, render_template, flash, url_for, redirect, request
 from flask_wtf import FlaskForm
@@ -30,6 +31,11 @@ class TodoForm(FlaskForm):
     body = TextAreaField(validators=[DataRequired(), length(min=4)])
     submit = SubmitField('Submit')
 
+class TodoData:
+    def __init__(self, data=''):
+        self.data = data
+        
+is_log_in = False
 
 @app.route('/')
 def home():
@@ -37,14 +43,44 @@ def home():
 
 @app.route('/dashboard/<username>', methods=['POST'])
 def dashboard(username: str):
+    global is_log_in
+    todos = TodoData()
     form = TodoForm()
     response = requests.get(f'http://127.0.0.1:8000/user/v1/{username}')
-    data = response.json()
-    flash(f"{username}, you've logged in sucessfully")
-    return render_template('dashboard.html', form=form, data=data)
+    todos.data = response.json()
+    
+    if not is_log_in:
+        flash(f"{username}, you've logged in sucessfully")
+        is_log_in = True
+    else:
+        print('deleted')
+        num = request.form.get('todo_id')
+        
+        print(num)
+        if num:
+            requests.delete(f'http://127.0.0.1:8000/user/v1/{username}/{num}')
+            response = requests.get(f'http://127.0.0.1:8000/user/v1/{username}')
+            todos.data = response.json()
+            return redirect(url_for('delete'), code=307)
+        add_todo = request.form.get('addtodo')
+        if add_todo:
+            todos.data = []
+            print() 
+            data = form.data
+            data_dict = {
+                'title':data['title'],
+                'body':data['body']
+            }
+            response = requests.post(f'http://127.0.0.1:8000/add_todo/user/v1/{username}',params = data_dict)
+            response = requests.get(f'http://127.0.0.1:8000/user/v1/{username}')
+            todos.data = response.json()
+
+    return render_template('dashboard.html', form=form, data=todos.data)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global is_log_in
+    is_log_in = False
     error = None
     form = LoginForm()
     user_entry = {}
@@ -92,6 +128,10 @@ def sign_in():
   
     return  render_template('sign_in.html', form=form, error = error)
 
+@app.post('/delete')
+def delete():
+    title = request.form.get('todo_title')
+    return render_template('delete.html', title = title)
 if __name__ == '__main__':
     app.run(debug=True)
 

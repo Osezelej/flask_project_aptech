@@ -1,0 +1,16 @@
+{%extends 'base.html'%}
+{%block title%}
+deleted {{title}}
+{%endblock%}
+{%block content%}
+{%block login %}
+<li class="nav-item">
+  <a class="nav-link " aria-current="page" href="{{url_for('login')}}">Log out</a>
+</li>
+{%endblock%}
+<br>
+<br>
+<div class="container">
+    <h3>Todo with {{title}} name been deleted</h3>
+</div>
+{%endblock%}

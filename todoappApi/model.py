@@ -140,6 +140,22 @@ def login_user(password:str, username:str='', phone:str='', email:str='')->None:
 def update():
     pass
 
+def delete_todo(username:str, id:str):
+    with psycopg2.connect(**CONFIGURATION) as conn:
+        with conn.cursor() as cur:
+            delete_script = f'''DELETE FROM {username} WHERE id =%s'''
+            cur.execute(delete_script, (id,))
+        conn.commit()
+    return arange(username)
+
+def add_todo(username:str, header:str, body:str):
+    with psycopg2.connect(**CONFIGURATION) as conn:
+        with conn.cursor() as cur:
+            insert_script = F'''INSERT INTO {username}(header, body)VALUES(%s, %s) ''' 
+            cur.execute(insert_script, (header, body))
+        conn.commit()
+        
+
 # username = input('please enter your username: ')
 # email = input('please enter your email: ')
 # phone = input('please enter your phone number: ')
